@@ -1,4 +1,5 @@
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +22,8 @@ import static sun.security.jgss.GSSUtil.login;
  */
 public class Login extends javax.swing.JFrame {
 
+     String conUrl = "jdbc:mysql://localhost/argiebsit2" ;
+
     /**
      * Creates new form Login
      */
@@ -39,18 +42,18 @@ public class Login extends javax.swing.JFrame {
 
         register = new javax.swing.JFrame();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        user = new javax.swing.JTextField();
-        fn = new javax.swing.JTextField();
-        ln = new javax.swing.JTextField();
+        fn = new javax.swing.JLabel();
+        ln = new javax.swing.JLabel();
+        us = new javax.swing.JLabel();
+        ps = new javax.swing.JLabel();
+        UStxt = new javax.swing.JTextField();
+        FNtxt = new javax.swing.JTextField();
+        Lntxt = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        ps1 = new javax.swing.JPasswordField();
-        jLabel9 = new javax.swing.JLabel();
-        cp = new javax.swing.JPasswordField();
+        PWpf = new javax.swing.JPasswordField();
         cn = new javax.swing.JLabel();
+        ps1 = new javax.swing.JLabel();
+        PWpf1 = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -64,37 +67,37 @@ public class Login extends javax.swing.JFrame {
         register.setMinimumSize(new java.awt.Dimension(500, 300));
         register.setPreferredSize(new java.awt.Dimension(200, 200));
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
         jPanel3.setMaximumSize(new java.awt.Dimension(500, 390));
         jPanel3.setMinimumSize(new java.awt.Dimension(400, 390));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("First name:");
+        fn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        fn.setText("First name:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setText("Last name:");
+        ln.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        ln.setText("Last name:");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("Username:");
+        us.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        us.setText("Username:");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel8.setText("Password:");
+        ps.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        ps.setText("Confirm Password:");
 
-        user.addActionListener(new java.awt.event.ActionListener() {
+        UStxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userActionPerformed(evt);
+                UStxtActionPerformed(evt);
             }
         });
 
-        fn.addActionListener(new java.awt.event.ActionListener() {
+        FNtxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fnActionPerformed(evt);
+                FNtxtActionPerformed(evt);
             }
         });
 
-        ln.addActionListener(new java.awt.event.ActionListener() {
+        Lntxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lnActionPerformed(evt);
+                LntxtActionPerformed(evt);
             }
         });
 
@@ -107,44 +110,44 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        ps1.addActionListener(new java.awt.event.ActionListener() {
+        PWpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ps1ActionPerformed(evt);
+                PWpfActionPerformed(evt);
             }
         });
-        ps1.addKeyListener(new java.awt.event.KeyAdapter() {
+        PWpf.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                ps1KeyPressed(evt);
+                PWpfKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                ps1KeyReleased(evt);
+                PWpfKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                ps1KeyTyped(evt);
-            }
-        });
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setText("Confirm Password:");
-
-        cp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cpActionPerformed(evt);
-            }
-        });
-        cp.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cpKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                cpKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                cpKeyTyped(evt);
+                PWpfKeyTyped(evt);
             }
         });
 
         cn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        ps1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        ps1.setText("Password:");
+
+        PWpf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PWpf1ActionPerformed(evt);
+            }
+        });
+        PWpf1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                PWpf1KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PWpf1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PWpf1KeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -154,30 +157,31 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cp))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(fn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fn))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ps1))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(user)
-                            .addComponent(ln)))
+                        .addComponent(FNtxt))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 157, Short.MAX_VALUE)
-                        .addComponent(cn, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)))
+                        .addComponent(ps)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                                .addComponent(cn, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton4)
+                                .addGap(10, 10, 10))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PWpf1))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ln)
+                            .addComponent(us)
+                            .addComponent(ps1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PWpf)
+                            .addComponent(UStxt)
+                            .addComponent(Lntxt))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -185,31 +189,34 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FNtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ln, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Lntxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ln, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(UStxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(us, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PWpf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ps1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
+                        .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PWpf1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(cn, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ps1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cn, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -221,7 +228,7 @@ public class Login extends javax.swing.JFrame {
         );
         registerLayout.setVerticalGroup(
             registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 282, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -344,7 +351,7 @@ public class Login extends javax.swing.JFrame {
         String sps= new String(PS.getPassword());
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+             Class.forName("com.mysql.jdbc.Driver");
             String conURL = "jdbc:mysql://localhost/argiebsit2?"
             + "user=root&password=";
 
@@ -387,53 +394,105 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PSActionPerformed
 
-    private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
+    private void UStxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UStxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userActionPerformed
+    }//GEN-LAST:event_UStxtActionPerformed
 
-    private void fnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fnActionPerformed
+    private void FNtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FNtxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_fnActionPerformed
+    }//GEN-LAST:event_FNtxtActionPerformed
 
-    private void lnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lnActionPerformed
+    private void LntxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LntxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_lnActionPerformed
+    }//GEN-LAST:event_LntxtActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        register();
+       
+        
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(conUrl,"root","");
+            
+            String fn1 = FNtxt.getText();
+            String ln1 = Lntxt.getText();
+            String us1 = UStxt.getText();
+            String ps11 = new String(PWpf.getPassword());
+            
+            if (fn1.isEmpty() && ln1.isEmpty() && us1.isEmpty() && ps11.isEmpty()){
+                JOptionPane.showMessageDialog(rootPane,"complete all data needed");
+                
+            }else{
+                PreparedStatement ppstmt = con.prepareStatement("Select * from logintbl where Username = ?");
+                ppstmt.setString (1, us1);
+                
+                ResultSet rs = ppstmt.executeQuery();
+                if (rs.next()){
+                    JOptionPane.showMessageDialog(rootPane,"User Name and Password already exist ");
+                    
+                }else{
+                    PreparedStatement pstmt = con.prepareStatement("Insert into logintbl Values(?,?,?,md5(?))");
+                    pstmt.setString(1,fn1);
+                    pstmt.setString(2,ln1);
+                     pstmt.setString(3,us1);
+                      pstmt.setString(4,ps11);
+                      pstmt.executeUpdate();    
+                      JOptionPane.showMessageDialog(rootPane, "Succesfully Registered");
+                   
+                }
+                
+            }
+        
+            
+            
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
+public void c(){
+    FNtxt.setText("");
+    Lntxt.setText("");
+    UStxt.setText("");
+   PWpf.setText("");
+   
+}
 
-    private void ps1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ps1ActionPerformed
+    private void PWpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PWpfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ps1ActionPerformed
+    }//GEN-LAST:event_PWpfActionPerformed
 
-    private void ps1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ps1KeyPressed
-        confirmpass();        // TODO add your handling code here:
-    }//GEN-LAST:event_ps1KeyPressed
+    private void PWpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PWpfKeyPressed
+           // TODO add your handling code here:
+    }//GEN-LAST:event_PWpfKeyPressed
 
-    private void ps1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ps1KeyReleased
-        confirmpass();          // TODO add your handling code here:
-    }//GEN-LAST:event_ps1KeyReleased
+    private void PWpfKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PWpfKeyReleased
+             // TODO add your handling code here:
+    }//GEN-LAST:event_PWpfKeyReleased
 
-    private void ps1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ps1KeyTyped
-        confirmpass();          // TODO add your handling code here:
-    }//GEN-LAST:event_ps1KeyTyped
+    private void PWpfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PWpfKeyTyped
+              // TODO add your handling code here:
+    }//GEN-LAST:event_PWpfKeyTyped
 
-    private void cpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpActionPerformed
-        jButton3ActionPerformed(evt);        // TODO add your handling code here:
-    }//GEN-LAST:event_cpActionPerformed
+    private void PWpf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PWpf1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PWpf1ActionPerformed
 
-    private void cpKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpKeyPressed
-        confirmpass();          // TODO add your handling code here:
-    }//GEN-LAST:event_cpKeyPressed
+    private void PWpf1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PWpf1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PWpf1KeyPressed
 
-    private void cpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpKeyReleased
-        confirmpass();          // TODO add your handling code here:
-    }//GEN-LAST:event_cpKeyReleased
+    private void PWpf1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PWpf1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PWpf1KeyReleased
 
-    private void cpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpKeyTyped
-        confirmpass();          // TODO add your handling code here:
-    }//GEN-LAST:event_cpKeyTyped
+    private void PWpf1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PWpf1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PWpf1KeyTyped
 
     /**
      * @param args the command line arguments
@@ -471,11 +530,15 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField FNtxt;
+    private javax.swing.JTextField Lntxt;
     private javax.swing.JPasswordField PS;
+    private javax.swing.JPasswordField PWpf;
+    private javax.swing.JPasswordField PWpf1;
     private javax.swing.JTextField US;
+    private javax.swing.JTextField UStxt;
     private javax.swing.JLabel cn;
-    private javax.swing.JPasswordField cp;
-    private javax.swing.JTextField fn;
+    private javax.swing.JLabel fn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -483,17 +546,13 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField ln;
-    private javax.swing.JPasswordField ps1;
+    private javax.swing.JLabel ln;
+    private javax.swing.JLabel ps;
+    private javax.swing.JLabel ps1;
     private javax.swing.JFrame register;
-    private javax.swing.JTextField user;
+    private javax.swing.JLabel us;
     // End of variables declaration//GEN-END:variables
 
     private void Register() {
