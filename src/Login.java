@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import static java.time.zone.ZoneRulesProvider.refresh;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -68,8 +69,8 @@ public class Login extends javax.swing.JFrame {
         register.setPreferredSize(new java.awt.Dimension(200, 200));
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
-        jPanel3.setMaximumSize(new java.awt.Dimension(500, 390));
-        jPanel3.setMinimumSize(new java.awt.Dimension(400, 390));
+        jPanel3.setMaximumSize(new java.awt.Dimension(500, 300));
+        jPanel3.setMinimumSize(new java.awt.Dimension(300, 300));
 
         fn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         fn.setText("First name:");
@@ -162,16 +163,14 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(FNtxt))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(ps)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                                .addGap(0, 79, Short.MAX_VALUE)
                                 .addComponent(cn, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4)
-                                .addGap(10, 10, 10))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(PWpf1))))
+                                .addGap(20, 20, 20)
+                                .addComponent(jButton4))
+                            .addComponent(PWpf1)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ln)
@@ -216,19 +215,21 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(cn, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout registerLayout = new javax.swing.GroupLayout(register.getContentPane());
         register.getContentPane().setLayout(registerLayout);
         registerLayout.setHorizontalGroup(
             registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(registerLayout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         registerLayout.setVerticalGroup(
             registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -365,9 +366,9 @@ public class Login extends javax.swing.JFrame {
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                new home().setVisible(true);
+                new productframe().setVisible(true);
                 this.setVisible(false);
-                JFrame home = new home();
+                JFrame home = new productframe();
                 JOptionPane.showMessageDialog(rootPane, sus + " you are sucessfully login "  );
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Incorrect username or password or capslock is on ", "Log in error", JOptionPane.ERROR_MESSAGE);
@@ -376,7 +377,7 @@ public class Login extends javax.swing.JFrame {
             PS.setText("");
 
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productframe.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -494,6 +495,18 @@ public void c(){
         // TODO add your handling code here:
     }//GEN-LAST:event_PWpf1KeyTyped
 
+    private static class US {
+
+        private static String getText() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        public US() {
+        }
+    }
+    }
+
+
     /**
      * @param args the command line arguments
      */
@@ -564,6 +577,10 @@ public void c(){
     }
 
     private void confirmpass() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void clearAddProductField() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
