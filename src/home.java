@@ -1,6 +1,7 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -69,10 +70,10 @@ public void showprod(){
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         protbl = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
 
         product.setMinimumSize(new java.awt.Dimension(400, 300));
 
@@ -171,43 +172,40 @@ public void showprod(){
         protbl.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(protbl);
 
+        jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton5.setText("DELETE PRODUCT");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jButton1))
-                .addContainerGap(493, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(97, 97, 97)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addContainerGap()))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2))
+                    .addComponent(jButton1)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(8, 8, 8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(346, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
         );
 
         pack();
@@ -239,6 +237,49 @@ public void showprod(){
             // TODO add your handli
     }//GEN-LAST:event_addproductActionPerformed
     }
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int selRow = protbl.getSelectedRow();
+        if (selRow== -1){
+            JOptionPane.showMessageDialog(protbl,
+                "Please Select Name From Table To Remove." , "Message",JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            String name = protbl.getValueAt(selRow,1).toString();
+            int opt = JOptionPane.showConfirmDialog(protbl, "ARE YOU SURE YOU WANT TO DELETE\n"
+                +name,"WARNING", JOptionPane.YES_OPTION);
+            if( opt== JOptionPane.YES_OPTION){
+                int a = JOptionPane.showConfirmDialog(protbl," THIS WILL DELETE\n"
+                    +name,"Confirmation",JOptionPane.ERROR_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
+                if (a== JOptionPane.OK_OPTION){
+                    int ii = Integer.parseInt(protbl.getValueAt(selRow, 0).toString());
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/argiebsit2?", "root", "");
+                        String sql = " DELETE FROM `argiebsit2`.`producttbl` where id = ?; ";
+                       
+                        PreparedStatement pstmt = con.prepareStatement(sql);
+                        pstmt.setInt(1, ii);
+                        pstmt.executeUpdate();
+
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JOptionPane.showMessageDialog(protbl, "Product_name" +name+ "DELETED");
+                }else{
+
+                }
+            }
+            else{
+
+            }
+        }
+        showData();
+    }//GEN-LAST:event_jButton5ActionPerformed
+    
+
+
     /**
      * @param args the command line arguments
      */
@@ -278,7 +319,7 @@ public void showprod(){
     private javax.swing.JButton addproduct;
     private javax.swing.JFormattedTextField fmtp;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -293,4 +334,9 @@ public void showprod(){
     private void clearProduct() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    private void showData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
+
