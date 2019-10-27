@@ -30,6 +30,63 @@ public class home extends javax.swing.JFrame {
         initComponents();
           showprod();
     }
+     public void search(){
+        String prodname = search.getText();
+        
+        try{
+            String sql = "select * from producttbl where product_name like ?;";
+           Class.forName("com.mysql.jdbc.Driver");
+           Connection conn = (Connection)DriverManager.getConnection("jdbc:mysql://localhost/argiebsit2?", "root", "");
+           PreparedStatement pstmt = conn.prepareStatement(sql);
+           pstmt.setString(1, "%"+prodname+"%");
+           ResultSet rs = pstmt.executeQuery();
+           DefaultTableModel tbl = (DefaultTableModel)protbl.getModel();
+           tbl.setRowCount(0);
+           if(!rs.isBeforeFirst()){
+               tbl.addRow(new Object[]{"NO DATA", "NO DATA", "NO DATA", "NO DATA"});
+           }else{
+               while(rs.next()){
+                   tbl.addRow(new Object[]{rs.getString("id"),rs.getString("product_name"),rs.getString("quantity"),rs.getString("price")});
+               }
+           }
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }
+    public void showData(){
+       String sql = "SELECT * FROM producttbl;";
+    
+    try{
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://localhost/argiebsit2?", "root", "");
+        PreparedStatement pst = con.prepareStatement(sql);
+        
+        
+        ResultSet r = pst.executeQuery();
+        
+        DefaultTableModel tbl = (DefaultTableModel)protbl.getModel();
+        tbl.setRowCount(0);
+        
+        while(r.next()){
+            tbl.addRow(new Object[]{r.getString("id"),r.getString("product_name"),r.getString("quantity"),r.getString("price")});
+            this.setVisible(true);
+        }
+        
+        
+    }   catch (ClassNotFoundException ex) {
+            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }
+    
+    
+    
+    
+    
 public void showprod(){
     String sql = "select * from producttbl;";
         try {
@@ -70,12 +127,13 @@ public void showprod(){
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         savebtn = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         protbl = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        search = new javax.swing.JTextField();
 
         product.setMinimumSize(new java.awt.Dimension(400, 300));
 
@@ -150,11 +208,6 @@ public void showprod(){
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(102, 0, 102));
-        jLabel2.setText("Welcome!");
-
         jButton1.setText("Add Product");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,6 +250,15 @@ public void showprod(){
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Search Product:");
+
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,23 +266,28 @@ public void showprod(){
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(search)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -229,7 +296,7 @@ public void showprod(){
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
                         .addContainerGap())
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
         );
 
         pack();
@@ -361,6 +428,10 @@ try{
         Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
     }        // TODO add your handling code here:
     }//GEN-LAST:event_savebtnActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
     
 
 
@@ -405,7 +476,7 @@ try{
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -414,6 +485,7 @@ try{
     private javax.swing.JFrame product;
     private javax.swing.JTable protbl;
     private javax.swing.JButton savebtn;
+    private javax.swing.JTextField search;
     private javax.swing.JSpinner spnq;
     // End of variables declaration//GEN-END:variables
 
@@ -421,8 +493,6 @@ try{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void showData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 }
 
